@@ -11,6 +11,10 @@ tools such as aircrack-ng but is much easier to use.
 ![ScreenShot](https://i.imgur.com/t4AsVwY.png)
 
 ### ToDo:
-1. Add Status of hack
-⋅⋅* Current Passsword
-⋅⋅* Success / Failed Detection
+1. Add Status of hack  
+  * Current Passsword  
+  * Success / Failed Detection  
+2. MultiThreading
+3. Dll Cleanup
+  * Remove Unneeded Dlls
+  * Bind Dlls to exe (into one file)
