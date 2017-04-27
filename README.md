@@ -9,3 +9,8 @@ tools such as aircrack-ng but is much easier to use.
 
 ### Screenshot
 ![ScreenShot](https://i.imgur.com/t4AsVwY.png)
+
+### ToDo:
+1. Add Status of hack
+⋅⋅* Current Passsword
+⋅⋅* Success / Failed Detection
