@@ -1,6 +1,6 @@
 # WiBr
 C# Wifi Hacker  
-![ScreenShot](http://www.hotspotsetup.net/wp-content/uploads/2017/02/Hack-Wifi.jpg)
+![ScreenShot](https://assets.jalantikus.com/assets/cache/1380/600/tips/2016/11/16/cara-hacker-membobol-password-wifi-8.jpeg)
   
 Wifi Bruteforce (WiBr) is a wifi cracking tool writen in c#. Unlike other wireless crackers namely aircrack-ng WiBr simply tries   connecting over and over again each time with a diffrent password (dictionary attack) it is much slower than using tools such as aircrack-ng but is much easier to use.  
 
