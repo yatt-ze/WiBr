@@ -1,4 +1,4 @@
 language: csharp
-solution: "WiBr.sln"
+solution: "./WiBr.sln"
 install:
   - nuget restore WiBr.sln
