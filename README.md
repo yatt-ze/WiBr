@@ -7,14 +7,8 @@ tries connecting over and over again each time with a diffrent
 password (dictionary attack) it is much slower than using   
 tools such as aircrack-ng but is much easier to use.  
 
-### Screenshot
-![ScreenShot](https://i.imgur.com/t4AsVwY.png)
+### Screenshot ~ v1.1.0
+![ScreenShot](http://i.imgur.com/VXLLJrs.png)
 
 ### ToDo:
-1. Add Status of hack  
-  * Current Passsword  
-  * Success / Failed Detection  
-2. MultiThreading
-3. Dll Cleanup
-  * Remove Unneeded Dlls
-  * Bind Dlls to exe (into one file)
+1. Accept issues and fix any bugs
