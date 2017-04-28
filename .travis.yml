@@ -1,2 +1,4 @@
 language: csharp
 solution: "./WiBf.sln"
+install:
+- travis_retry nuget restore -source "https://www.nuget.org/api/v2" "./WiBf.sln"
