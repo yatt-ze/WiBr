@@ -1,4 +1,4 @@
-![ScreenShot](http://3.bp.blogspot.com/-EbYTNTYmmrE/U9YMeyrX1PI/AAAAAAAAclo/lVFBlo7Bn1I/s1600/Pineapple-WiFi-hacking.jpg)  
+![ScreenShot](http://i.imgur.com/9khU6ZJ.png)  
 <h1 align="center">Wifi Bruteforce</h1>  
   
 [![Build Status](https://travis-ci.org/Tlgyt/WiBr.svg?branch=master)](https://travis-ci.org/Tlgyt/WiBr)   [![Code Triagers Badge](https://www.codetriage.com/tlgyt/wibr/badges/users.svg)](https://www.codetriage.com/tlgyt/wibr)  
