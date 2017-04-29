@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/Tlgyt/WiBr.png?label=ready&title=Ready)](https://waffle.io/Tlgyt/WiBr)
 ![ScreenShot](http://i.imgur.com/9khU6ZJ.png)  
 <h1 align="center">Wifi Bruteforce</h1>  
   
