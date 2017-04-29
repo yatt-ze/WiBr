@@ -1,7 +1,7 @@
 ![ScreenShot](http://i.imgur.com/9khU6ZJ.png)  
 <h1 align="center">Wifi Bruteforce</h1>  
   
-[![Build Status](https://travis-ci.org/Tlgyt/WiBr.svg?branch=master)](https://travis-ci.org/Tlgyt/WiBr)   [![Code Triagers Badge](https://www.codetriage.com/tlgyt/wibr/badges/users.svg)](https://www.codetriage.com/tlgyt/wibr)  [![Stories in Ready](https://badge.waffle.io/Tlgyt/WiBr.png?label=ready&title=Ready)](https://waffle.io/Tlgyt/WiBr)  
+[![Build Status](https://travis-ci.org/Tlgyt/WiBr.svg?branch=master)](https://travis-ci.org/Tlgyt/WiBr)   [![Code Triagers Badge](https://www.codetriage.com/tlgyt/wibr/badges/users.svg)](https://www.codetriage.com/tlgyt/wibr)  [![Stories in Ready](https://badge.waffle.io/Tlgyt/WiBr.png?label=ready&title=Ready)](https://waffle.io/Tlgyt/WiBr)  [![GitHub release](https://img.shields.io/badge/Release-1.1.0-brightgreen.svg)](https://github.com/Tlgyt/wibr/releases/tag/v1.1.0)
   
 Wifi Bruteforce (WiBr) is a wifi cracking tool writen in c#. Unlike other wireless crackers namely aircrack-ng WiBr simply tries   connecting over and over again each time with a diffrent password (dictionary attack) it is much slower than using tools such as aircrack-ng but is much easier to use.  
 ### Usage:
