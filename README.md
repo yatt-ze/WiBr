@@ -20,3 +20,4 @@ Wifi Bruteforce (WiBr) is a wifi cracking tool writen in c#. Unlike other wirele
 4. UI Cleanup  
   *. Fonts  
   *. Version Number
+  5. Acess point listbox auto update (run on timer)
