@@ -1,19 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Threading;
 using System.Windows.Forms;
-using SimpleWifi;
-using SimpleWifi.Win32;
-using NativeWifi;
 using System.Collections.ObjectModel;
 using System.Reflection;
 using System.Net;
+//---------------------------------------
+using SimpleWifi;
+using NativeWifi;
+
+
+/*
+v1.1.0 Update Notes (Released)
+	1. Added Multithreading
+	2. New Status Label
+	3. Ability to Change the Connection Check Delay 
+
+v1.2.0 Update Notes (Released)
+	1. Added password count (done / total)
+	2. Font Changes
+	3. Added Version Number to title label
+	3. Added Rescan button
+*/
 
 namespace WiBf
 {
@@ -22,6 +34,7 @@ namespace WiBf
 		private static Wifi wifi;
 		NativeWifi.WlanClient wlan = new NativeWifi.WlanClient();
 		List<string> passwords = new List<string>();
+		public string version = "v1.2.0";
 
 		public Form1()
 		{
@@ -33,8 +46,9 @@ namespace WiBf
 			wifi = new Wifi();
 			wifi.ConnectionStatusChanged += wifi_ConnectionStatusChanged;
 			linkLabel1.Links.Add(12, 7, "https://github.com/Tlgyt");
-			List();
 			label3.Text = "Status: idle";
+			label1.Text = "Wifi Bruteforce " + version;
+			List();
 		}
 
 		private delegate void SetControlPropertyThreadSafeDelegate(
@@ -145,9 +159,10 @@ namespace WiBf
 				MessageBox.Show("Please Select a Wordlist");
 				return;
 			}
+			int count = 1;
 			foreach (string pass in passwords)
 			{
-				SetControlPropertyThreadSafe(label3, "Text", "Status: Trying Password: "+pass);
+				SetControlPropertyThreadSafe(label3, "Text", "Status: Trying Password: "+pass+" ("+count+" / "+passwords.Count+")");count++;
 				// Auth
 				AuthRequest authRequest = new AuthRequest(selectedAP);
 				bool overwrite = true;
@@ -232,6 +247,12 @@ namespace WiBf
 				}
 				file.Close();
 			}
+		}
+
+		private void button3_Click(object sender, EventArgs e)
+		{
+			listBox1.Items.Clear();
+			List();
 		}
 	}
 }
