@@ -15,3 +15,4 @@ Wifi Bruteforce (WiBr) is a wifi cracking tool writen in c#. Unlike other wirele
 
 ### ToDo:
 1. Accept issues and fix any bugs    
+2. Fix warning: Form1.Designer.cs(192,38): warning CS0414: The private field `WiBf.Form1.timer1' is assigned but its value is never used  
