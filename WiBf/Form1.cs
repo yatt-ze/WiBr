@@ -45,9 +45,9 @@ namespace WiBf
 		{
 			wifi = new Wifi();
 			wifi.ConnectionStatusChanged += wifi_ConnectionStatusChanged;
-			linkLabel1.Links.Add(12, 7, "https://github.com/Tlgyt");
+			GitHubLabel.Links.Add(12, 7, "https://github.com/Tlgyt");
 			label3.Text = "Status: idle";
-			label1.Text = "Wifi Bruteforce " + version;
+			TitleLabel.Text = "Wifi Bruteforce " + version;
 			List();
 		}
 
@@ -131,7 +131,7 @@ namespace WiBf
 			IEnumerable<AccessPoint> accessPoints = wifi.GetAccessPoints().OrderByDescending(ap => ap.SignalStrength);
 			foreach (AccessPoint ap in accessPoints)
 			{
-				listBox1.Items.Add(ap.Name);
+				AccessPointsListBox.Items.Add(ap.Name);
 			}
 			return accessPoints;
 		}
@@ -187,7 +187,7 @@ namespace WiBf
 				}
 
 				selectedAP.ConnectAsync(authRequest, overwrite, OnConnectedComplete);
-				int i = Convert.ToInt32(textBox1.Text);
+				int i = Convert.ToInt32(ConnectionCheckDelayTextBox.Text);
 				Thread.Sleep(i*1000);
 				if (check(selectedAP) == true && CheckForInternetConnection() == true)
 				{
@@ -197,7 +197,7 @@ namespace WiBf
 			}
 		}
 
-		private void button1_Click(object sender, EventArgs e)
+		private void CrackButton_Click(object sender, EventArgs e)
 		{
 			try
 			{
@@ -206,7 +206,7 @@ namespace WiBf
 
 				foreach (AccessPoint ap in accessPoints)
 				{
-					if (ap.Name == listBox1.SelectedItem.ToString())
+					if (ap.Name == AccessPointsListBox.SelectedItem.ToString())
 					{
 						selectedAP = ap;
 					}
@@ -221,12 +221,12 @@ namespace WiBf
 			}
 		}
 
-		private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		private void GitHubLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			System.Diagnostics.Process.Start(e.Link.LinkData.ToString());
 		}
 
-		private void button2_Click(object sender, EventArgs e)
+		private void WordlistButton_Click(object sender, EventArgs e)
 		{
 			OpenFileDialog oFile = new OpenFileDialog();
 			openFileDialog1.InitialDirectory = "c:\\";
@@ -249,9 +249,9 @@ namespace WiBf
 			}
 		}
 
-		private void button3_Click(object sender, EventArgs e)
+		private void RescanButton_Click(object sender, EventArgs e)
 		{
-			listBox1.Items.Clear();
+			AccessPointsListBox.Items.Clear();
 			List();
 		}
 	}
