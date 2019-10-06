@@ -154,11 +154,17 @@ namespace WiBf
 
 		private void crack(AccessPoint selectedAP)
 		{
+            if (selectedAP == null)
+            {
+                MessageBox.Show("Please select an access point.");
+                return;
+            }
 			if (passwords.Count == 0)
 			{
 				MessageBox.Show("Please Select a Wordlist");
 				return;
 			}
+
 			int count = 1;
 			foreach (string pass in passwords)
 			{
@@ -206,7 +212,7 @@ namespace WiBf
 
 				foreach (AccessPoint ap in accessPoints)
 				{
-					if (ap.Name == listBox1.SelectedItem.ToString())
+                    if (listBox1.SelectedItem != null && ap.Name == listBox1.SelectedItem.ToString())
 					{
 						selectedAP = ap;
 					}
