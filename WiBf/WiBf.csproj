@@ -35,6 +35,9 @@
   <PropertyGroup>
     <ApplicationIcon>1493206014_icon-wifi.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ManagedWifi, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\managedwifi.1.1.0\lib\net20\ManagedWifi.dll</HintPath>
@@ -77,6 +80,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="app.manifest" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
